@@ -6,10 +6,9 @@ class User < ApplicationRecord
 
     validate :must_have_perferred_email
 
-    def must_have_perferred_email
-        byebug
+    def must_have_perferred_email 
         unless email.match?(/gmail.com|yahoo.com|hotmail.com|outlook.com|aol.com/)
-            errors.add(:email, "Sorry, we only allow specific email providers")
+            errors.add(:email, "Sorry,we only allow specific email providers")
         end 
     end 
 end

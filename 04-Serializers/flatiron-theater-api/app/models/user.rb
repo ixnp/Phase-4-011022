@@ -4,7 +4,7 @@ class User < ApplicationRecord
     validates :name, presence: true, uniqueness: true
     validates :email, uniqueness: true
 
-    validate :must_have_perferred_email
+    # validate :must_have_perferred_email
 
     def must_have_perferred_email
         byebug
