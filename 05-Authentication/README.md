@@ -46,7 +46,7 @@ cow2 = BCrypt::Engine::hash_secret('cow', cow.salt)
 
 # We can then use `==` to verify that the above instance matches with what we have in our database.
 
-cow2 == "$2a$12$YoAo8BwjPhrQIF8X..nQGeLFAI3jzltfe.rGzIeERJGswxD65ZjKi"
+cow == "cow"
 
 ```
 
