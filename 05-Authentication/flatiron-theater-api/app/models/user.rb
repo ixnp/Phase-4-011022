@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+    has_secure_password
+
     has_many :tickets
     has_many :productions, through: :tickets
 
@@ -13,4 +15,6 @@ class User < ApplicationRecord
             errors.add(:email, "Sorry, we only allow specific email providers")
         end 
     end 
+
+   
 end
