@@ -19,18 +19,25 @@ function App() {
   useEffect(() => {
     fetch("/authorized_user")
     .then((res) => {
-      if (res.ok) {
+      if(res.ok) {
         res.json()
         .then((user) => {
+          console.log(user)
           setIsAuthenticated(true);
           setUser(user);
-        });
+        })
+        .then(()=> {
+          fetch('/productions')
+          .then(res => res.json())
+          .then(productions => {
+            console.log(productions)
+            setProductions(productions)
+          });
+        })
       }
     });
 
-    fetch('/productions')
-    .then(res => res.json())
-    .then(setProductions);
+   
 
   },[]);
 
@@ -43,7 +50,9 @@ function App() {
       .then(res => {
         if(res.ok){
           res.json()
-          .then(json =>  setProductions([...productions,json]))
+          .then(json =>  {
+            setProductions([...productions,json])
+          })
         } else {
           res.json()
           .then(json => {

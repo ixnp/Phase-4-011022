@@ -9,7 +9,6 @@ class ApplicationController < ActionController::API
     end 
 
     def render_not_found(error)
-        byebug
         render json: {error: "#{error.model} Not Found"}, status: :not_found
     end 
 end
