@@ -1,23 +1,38 @@
 import { Route, Switch } from "react-router-dom";
 
 import {useEffect, useState} from 'react'
-import ProductionContainer from './components/ProductionContainer'
-import ProductionForm from './components/ProductionForm'
-import Navigation from './components/Navigation'
-import ProductionDetail from './components/ProductionDetail'
-import Auth from './components/Auth'
-import Login from './components/LogIn'
+import ProductionContainer from './ProductionContainer'
+import ProductionForm from './ProductionForm'
+import Navigation from './Navigation'
+import ProductionDetail from './ProductionDetail'
+import Auth from './Auth'
+import Login from './LogIn'
 
 function App() {
   const [productions, setProductions] = useState([])
   const [errors, setErrors] = useState(false)
   const [cart, setCart] = useState([])
 
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [user, setUser] = useState(null);
+
   useEffect(() => {
+    fetch("/authorized_user")
+    .then((res) => {
+      if (res.ok) {
+        res.json()
+        .then((user) => {
+          setIsAuthenticated(true);
+          setUser(user);
+        });
+      }
+    });
+
     fetch('/productions')
     .then(res => res.json())
-    .then(setProductions)
-  },[])
+    .then(setProductions);
+
+  },[]);
 
   function handlePost(obj){
       fetch('/productions',{
@@ -25,20 +40,24 @@ function App() {
         headers: {'Content-Type': 'application/json'},
         body:JSON.stringify(obj)
       })
-      .then(res => res.json())
-      .then(data => {
-        console.log(data)
-        if(data.errors){
-          setErrors(data.errors)
+      .then(res => {
+        if(res.ok){
+          res.json()
+          .then(json =>  setProductions([...productions,json]))
         } else {
-          setProductions([...productions,data])
+          res.json()
+          .then(json => {
+          setErrors(Object.entries(json.errors))
+          })
         }
       })
   }
 
+  if (!isAuthenticated) return <Login error={'please login'} setIsAuthenticated={setIsAuthenticated} setUser={setUser} />;
+
   return (
     <>
-    <Navigation cart={cart}/>
+    <Navigation cart={cart} setIsAuthenticated={setIsAuthenticated} setUser={setUser} user={user}/>
     <Switch>
     <Route exact path="/">
       <ProductionContainer productions={productions}/>

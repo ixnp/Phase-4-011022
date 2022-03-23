@@ -28,6 +28,7 @@ function Auth() {
     }
     return (
         <> 
+        <h1>Sign UP</h1>
         <form onSubmit={onSubmit}>
         <label>
           Username

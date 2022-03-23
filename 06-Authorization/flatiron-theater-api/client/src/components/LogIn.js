@@ -1,10 +1,14 @@
 import React, {useState} from 'react'
+import Auth from './Auth'
+import { useHistory } from "react-router-dom";
 
-function Login() {
+
+function Login({setUser,setIsAuthenticated}) {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
    
-    const [errors, setErrors] = useState([])
+    const [error, setError] = useState([])
+    let history = useHistory();
 
     function onSubmit(e){
         e.preventDefault()
@@ -18,14 +22,25 @@ function Login() {
           headers:{'Content-Type': 'application/json'},
           body:JSON.stringify(user)
         })
-        .then(res => res.json())
-        .then(json => {
-            console.log(json)
-            if(json.errors) setErrors(json.errors)
+        .then(res => {
+          if(res.ok){
+            res.json()
+            .then(user=>{
+              setUser(user)
+              setIsAuthenticated(true)
+            })
+            
+          } else {
+            res.json()
+            .then(json => setError(json.error))
+          }
         })
     }
     return (
+      
         <> 
+        <h1>Flatiron Theater Company</h1>
+        <h1>Login</h1>
         <form onSubmit={onSubmit}>
         <label>
           Username
@@ -40,7 +55,8 @@ function Login() {
        
         <input type="submit" value="Login!" />
       </form>
-      {errors?errors.map(e => <div>{e}</div>):null}
+      {error?<div>{error}</div>:null}
+      <Auth />
         </>
     )
 }

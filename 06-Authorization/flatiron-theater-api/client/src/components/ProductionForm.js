@@ -22,6 +22,7 @@ function ProductionForm({handlePost, errors}) {
       description: formData.description,
       ongoing:true
     }
+    console.log(production)
     handlePost(production)
   }
     return (
@@ -30,32 +31,32 @@ function ProductionForm({handlePost, errors}) {
        <form onSubmit={onSubmit}>
        <label>
           Title
-          <input type="text" value={formData.title} onChange={(e) => setFormData(e.target.value)} />
+          <input type="text" name="title" value={formData.title} onChange={(e) => setFormData({...formData, [e.target.name]:e.target.value})} />
         </label>
         <br/>
         <label>
         Genre
-          <input type="text" value={formData.genre} onChange={(e) => setFormData(e.target.value)} />
+          <input type="text" name="genre" value={formData.genre} onChange={(e) => setFormData({...formData, [e.target.name]:e.target.value})} />
         </label>
         <br/>
         <label>
         Budget
-          <input type="number" value={formData.budget} onChange={(e) => setFormData(e.target.value)} />
+          <input type="number" name="budget" value={formData.budget} onChange={(e) => setFormData({...formData, [e.target.name]:e.target.value})} />
         </label>
         <br/>
         <label>
         Image
-          <input type="text" value={formData.image} onChange={(e) => setFormData(e.target.value)} />
+          <input type="text" name="image" value={formData.image} onChange={(e) => setFormData({...formData, [e.target.name]:e.target.value})} />
         </label>
         <br/>
         <label>
         Director
-          <input type="text" value={formData.director} onChange={(e) => setFormData(e.target.value)} />
+          <input type="text" name="director" value={formData.director} onChange={(e) => setFormData({...formData, [e.target.name]:e.target.value})} />
         </label>
         <br/>
         <label>
         Description
-          <textarea type="text" rows="4" cols="50" value={formData.description} onChange={(e) => setFormData(e.target.value)} />
+          <textarea type="text" name="description" rows="4" cols="50" value={formData.description} onChange={(e) => setFormData({...formData, [e.target.name]:e.target.value})} />
         </label>
         <br/>
         <input type="submit" value="Submit Production" />
